@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: cinema_db
+    environment:
+      POSTGRES_DB: movie_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin_password
+    ports:
+      - "5432:5432"
+    volumes:
+      # Automatically initialize the database with schema.sql
+      - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
+      # Persist database data across container restarts
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d movie_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: cinema_backend
+    command: python3 -m src.main
+    ports:
+      - "8001:8001"
+    environment:
+      - DB_NAME=movie_db
+      - DB_USER=admin
+      - DB_PASS=admin_password
+      - DB_HOST=db
+      - STRIPE_API_KEY=${STRIPE_API_KEY:-sk_test_replace_me}
+      - GUI_URL=http://localhost:9000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: .
+    container_name: cinema_frontend
+    command: python3 GUI/app.py
+    ports:
+      - "9000:9000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
