@@ -101,11 +101,11 @@ Ensure you have the following installed:
 ---
 
 ## 📂 Project Structure
-- `GUI/`: Web-based theater interface.
-- `workings/`: FastAPI backend and API logic.
-- `logic/`: Core Python business logic and models.
+- `GUI/`: Web-based theater interface (HTML/CSS/JS).
+- `src/`: FastAPI backend organized by domain (auth, movies, payments, reservations).
 - `schema.sql`: Database table definitions and triggers.
 - `requirements.txt`: Python dependencies.
+- `Dockerfile` & `docker-compose.yml`: Containerization configuration.
 
 ---
 
