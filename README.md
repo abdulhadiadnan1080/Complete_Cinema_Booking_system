@@ -1,49 +1,44 @@
 # 🎬 Cinema Pro - Ultimate Movie Reservation System
 
-Cinema Pro is a premium, full-stack movie reservation system featuring a modern web-based GUI, a robust FastAPI backend, and seamless Stripe payment integration.
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
+[![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=for-the-badge&logo=stripe)](https://stripe.com/)
+
+Cinema Pro is a premium, full-stack movie reservation system featuring a modern web-based GUI, a robust domain-driven FastAPI backend, and seamless Stripe payment integration.
 
 ---
 
 ## ✨ Key Features
-- **Modern UI**: A sleek, dark-themed theater interface with glassmorphism and smooth animations.
-- **Real-time Seating**: Visualize seat availability and select seats dynamically.
-- **Admin Dashboard**: Full control for admins to add/delete movies and manage the catalog.
-- **Secure Payments**: Integrated Stripe Checkout for real-world payment processing.
-- **Auto-Cleanup**: Automated system to release expired reservations after 5 minutes.
-- **Email Notifications**: Ready for Resend integration to send booking confirmations.
-
----
-
-## 🛠️ Tech Stack
-- **Frontend**: HTML5, Vanilla CSS (Modern Aesthetics), Javascript.
-- **Backend**: FastAPI (Python), Uvicorn.
-- **Database**: PostgreSQL (with Triggers for auto-seat generation).
-- **Payments**: Stripe API.
+- **Modern Theater UI**: A sleek, dark-themed interface with glassmorphism and smooth animations.
+- **Dynamic Seating**: Real-time visualization of seat availability and dynamic selection.
+- **Admin Management**: Full control for admins to manage the movie catalog and view bookings.
+- **Integrated Payments**: Secure Stripe Checkout flow for processing real-world ticket purchases.
+- **Automated Cleanup**: Background logic to release expired reservations after 5 minutes.
+- **Domain-Driven Architecture**: Cleanly separated backend logic for better scalability.
 
 ---
 
 ## 🚀 Quick Start (Docker)
 
-The fastest way to run the entire project (Database, API, and GUI) is using Docker. You don't even need Python installed!
+The fastest way to run the entire project is using Docker. This handles the API, Frontend, and Database automatically.
 
 ```bash
 docker compose up --build
 ```
-*The database will automatically initialize. Access the GUI at `http://localhost:9000`.*
+- **GUI Access**: `http://localhost:9000`
+- **API Documentation**: `http://localhost:8001/docs`
 
 ---
 
 ## 💻 Manual Setup
 
-If you prefer to run it manually without Docker, follow these steps:
-
 ### 1. Prerequisites
-Ensure you have the following installed:
 - [Python 3.10+](https://www.python.org/downloads/)
 - [PostgreSQL](https://www.postgresql.org/download/)
-- [Stripe Account](https://stripe.com/) (For API keys)
+- [Stripe Account](https://stripe.com/) (For Test API keys)
 
-### 2. Database Initialization
+### 2. Database Setup
 1. Create the database:
    ```bash
    psql -U postgres -c "CREATE DATABASE movie_reservation;"
@@ -53,67 +48,52 @@ Ensure you have the following installed:
    psql -U postgres -d movie_reservation -f schema.sql
    ```
 
-### 3. Environment Setup
-1. Create a `.env` file in the root directory:
-   ```bash
-   cp .env.example .env
-   ```
-2. Fill in your credentials:
-   ```env
-   STRIPE_API_KEY=your_stripe_secret_key
-   DB_NAME=movie_reservation
-   DB_USER=postgres
-   DB_PASS=your_db_password
-   GUI_URL=http://localhost:9000
-   ```
+### 3. Environment Configuration
+Create a `.env` file from the example:
+```bash
+cp .env.example .env
+```
+Fill in your credentials:
+- `STRIPE_API_KEY`: Your Stripe Secret Key.
+- `DB_NAME`, `DB_USER`, `DB_PASS`: Your local Postgres credentials.
 
-### 4. Backend Setup
-1. Create and activate a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Start the API server:
-   ```bash
-   python3 -m src.main
-   ```
-   *The API will run at `http://localhost:8001`*
+### 4. Running the Project
+**Backend:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python3 -m src.main
+```
 
-### 5. Frontend Setup
-1. In a new terminal, run the GUI server:
-   ```bash
-   python3 GUI/app.py
-   ```
-   *The application will open automatically at `http://localhost:9000`*
-
----
-
-## 🔐 Default Credentials
-- **Admin Access**: 
-  - Username: `admin`
-  - Password: `admin`
-- **User Access**: Register a new account directly through the login screen.
+**Frontend:**
+```bash
+python3 GUI/app.py
+```
 
 ---
 
 ## 📂 Project Structure
-- `GUI/`: Web-based theater interface (HTML/CSS/JS).
-- `src/`: FastAPI backend organized by domain (auth, movies, payments, reservations).
-- `schema.sql`: Database table definitions and triggers.
-- `requirements.txt`: Python dependencies.
-- `Dockerfile` & `docker-compose.yml`: Containerization configuration.
+- **`GUI/`**: Frontend application (Static HTML/CSS/JS).
+- **`src/`**: Modularized FastAPI backend:
+  - `auth/`: User registration, login, and role management.
+  - `movies/`: Catalog management and dynamic seat generation.
+  - `payments/`: Stripe Checkout and payment verification.
+  - `reservations/`: Booking logic and reservation lifecycle.
+- **`schema.sql`**: Database structure and PL/pgSQL triggers.
+- **`Dockerfile` & `docker-compose.yml`**: Deployment configuration.
 
 ---
 
-## 🛠 Troubleshooting
-- **Database Error**: Ensure PostgreSQL is running and the credentials in `.env` are correct.
-- **Port 8001/9000 occupied**: If the ports are in use, check for existing Python processes and terminate them.
-- **Stripe Session Error**: Verify your `STRIPE_API_KEY` is a valid secret key from your Stripe dashboard.
+## 🔐 Credentials
+- **Admin**: `admin` / `admin`
+- **User**: Register directly through the UI.
 
 ---
 
-Enjoy the movie! 🍿
+## 🗺️ Roadmap
+- [ ] **Email Confirmations**: Integrate Resend for booking receipts.
+- [ ] **QR Code Tickets**: Generate tickets upon successful payment.
+- [ ] **Movie Posters**: Dynamic poster uploads via Cloudinary.
+
+Enjoy the show! 🍿
