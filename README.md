@@ -91,9 +91,4 @@ python3 GUI/app.py
 
 ---
 
-## 🗺️ Roadmap
-- [ ] **Email Confirmations**: Integrate Resend for booking receipts.
-- [ ] **QR Code Tickets**: Generate tickets upon successful payment.
-- [ ] **Movie Posters**: Dynamic poster uploads via Cloudinary.
-
-Enjoy the show! 🍿
+Enjoy the show! 
